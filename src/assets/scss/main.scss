@@ -1,0 +1,250 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+@import "./reset.scss";
+
+html, body{
+  height: 100%;
+}
+@font-face {
+  font-family: 'iconfont';  /* project id 1899128 */
+  src: url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.eot');
+  src: url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.woff2') format('woff2'),
+  url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_1899128_7jv8zkyatra.svg#iconfont') format('svg');
+}
+.iconfont{
+  font-family:"iconfont" !important;
+  font-size:1.5rem;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  // -webkit-text-stroke-width: .01rem;
+  -moz-osx-font-smoothing: grayscale;
+}
+// img[lazy=loading] ,img[lazy=error]{//懒加载样式
+//   width: 3rem;
+//   height: 3rem;
+//   background: url("~@/assets/images/common/default_training.png");
+//   background-repeat:no-repeat;
+//   background-size: auto 100%; 
+//   // background-position:center;
+//   // background-color: #E8ECEF;
+// }
+.scroll {
+  position: relative;
+  // height:-webkit-calc(100%-2.65rem);
+  // height:-moz-calc(100%-2.65rem); 
+  // transition: all 0.5s;
+  // transform: rotate(90deg);
+  height:calc(100% - 2.2rem);
+  overflow: hidden;
+}
+.scroll-ove{
+  min-height:calc(100% + 0.1rem);
+}
+.btn {
+  user-select: none;
+  &.hover {
+    opacity: .75;
+  }
+  &.disabled{
+    background: #bbb;
+  }
+}
+.page {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+  background: $bg-color;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active{
+  transition: opacity .5s;
+}
+.fade-enter-to{
+  opacity: 1;
+}
+.fade-leave {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: opacity 0
+}
+.fade-leave-to {
+  opacity: 0;
+}
+//空白页
+.blank{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 40% 0 0 0;
+  img{
+      width: 5.6rem;
+      height: 5.6rem;
+      margin-bottom: .3rem;
+  }
+  span{
+      color: #303133;
+      font-size: .6rem;
+      margin-bottom: .3rem;
+  }
+  p{
+      color: #909399;
+      font-size: 0.6rem;
+  }
+}
+//底
+.footer{
+  width: 100%;
+  height: 2.65rem;
+  border-top: 1px solid #eeeeee;
+  position: fixed;
+  bottom: 0;
+  z-index: 20;
+  background-color: #ffffff;
+  box-shadow: .2rem 0px .5rem 1px #eeeeee;
+}
+.footer>ul{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: .2rem 0;
+  height: 2.65rem;
+}
+.footer>ul>li{
+  text-align: center;
+
+  
+}
+.footer>ul>li a img{
+  width: 1.25rem;
+}
+.footer>ul>li .p{
+  color: #4A5A6B;
+}
+.footer>ul>li p{
+  color: #778CA2;
+  font-size: .5rem;
+  margin-top: .2rem;
+}
+//滚动条 列表
+.pullup-wrapper {
+  width: 100%;
+  height: 1.5rem;
+
+  .before-trigger {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .after-trigger {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.pulldown-wrapper {
+  position: absolute;
+  width: 100%;
+  transform: translateY(-100%) translateZ(0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  padding-bottom: .4rem;
+}
+
+.completeds-scroll,
+.scroll-pulldown {
+  height: 100%;
+}
+
+
+//切换页面动画
+.router-view {
+  width: 100%;
+  height: 100%;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  backface-visibility: hidden;
+
+}
+.router-view.heads{
+  padding-top: 2.2rem;
+}
+.router-view.footers{
+  padding-bottom: 2.65rem;
+}
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
+  will-change: transform;
+  height: 100%;
+  position: absolute;
+  left: 0;
+}
+.slide-right-enter-active {
+  animation-name: popInLeft;
+}
+.slide-right-leave-active {
+  animation-name: popOutRight;
+}
+.slide-left-enter-active {
+  perspective: 1000;
+  animation-name: popInRight;
+}
+.slide-left-leave-active {
+  animation-name: popOutLeft;
+}
+@keyframes popInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes popOutLeft {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+@keyframes popInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes popOutRight {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+}
