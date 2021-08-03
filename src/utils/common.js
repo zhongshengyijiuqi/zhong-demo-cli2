@@ -33,11 +33,17 @@ function sleep(time) {
 function getUniqueId() {
   return Symbol('id')
 }
-function isIosInput(e) { //ios失去焦点 焦点不下移
+function isIosInput(e){ //ios失去焦点 焦点不下移
   var u = navigator.userAgent;
   var flag;
   var timer;
   var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+  // console.log(e)
+  if(e&&e.target.nameValueMaterial){
+    if(!e.target.typeMaterial){
+      e.target.value = e.target.nameValueMaterial
+    }
+  }
   if (isIOS) {
     document.body.addEventListener('focusin', () => {  //软键盘弹起事件
       flag = true;
@@ -46,7 +52,7 @@ function isIosInput(e) { //ios失去焦点 焦点不下移
     document.body.addEventListener('focusout', () => { //软键盘关闭事件
       flag = false;
       if (!flag) {
-        timer = setTimeout(() => {
+        timer = setTimeout( ()=> {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" })//重点  =======当键盘收起的时候让页面回到原始位置(这里的top可以根据你们个人的需求改变，并不一定要回到页面顶部)
         }, 200);
       } else {
@@ -57,9 +63,17 @@ function isIosInput(e) { //ios失去焦点 焦点不下移
     return false;
   }
 }
-function selectInput(e) {//输入框获取焦点自动选取内容
-  if (e) {
-    e.currentTarget.select()
+function inputInput(e){
+  if(e){
+      e.target.typeMaterial = true
+  }
+
+}
+function selectInput(e){
+  if(e){
+    e.target.nameValueMaterial = JSON.parse(JSON.stringify(e.target.value))
+    e.target.typeMaterial = false
+    e.target.value = ''
   }
 }
 function newdata(level, time) {
@@ -165,6 +179,7 @@ export {
   sleep,
   getUniqueId,
   isIosInput,
+  inputInput,
   selectInput,
   newdata,
   toChinesNum,
