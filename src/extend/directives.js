@@ -1,43 +1,5 @@
 export default {
   install(Vue) {
-    let vueInstance = Vue.prototype
-
-    Vue.directive('focus', {
-      inserted(el) {
-        el.focus()
-      },
-    })
-
-    Vue.directive('filterSpecial', {
-      bind(el, binding) {
-        el.handler = () => {
-          el.value = vueInstance.$utils.filterSpecial(el.value)
-        }
-        el.addEventListener('input', el.handler, false)
-      },
-      unbind(el) {
-        el.removeEventListener('input', el.handler, false)
-      },
-    })
-
-    Vue.directive('number', {
-      // v-number.positive.decimals2
-/*       this.$utils.filterNumber(e.target.value, {
-        modifiers: {
-          decimals2: true,
-          positive: true
-        }
-      }) */
-      bind(el, binding) {
-        el.handler = () => {
-          el.value = vueInstance.$utils.filterNumber(el.value, binding)
-        }
-        el.addEventListener('input', el.handler, false)
-      },
-      unbind(el) {
-        el.removeEventListener('input', el.handler, false)
-      },
-    })
     Vue.directive("toFixed", { //多位小数点数字v-toFixed(2)
       componentUpdated(el, binding) {
         let toFixedLength = binding.value;

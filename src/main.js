@@ -3,27 +3,21 @@ import App from './App.vue'
 import router from './router'
 import store from './store/index'
 import axios from 'axios'
-import VueLocalStorage from 'vue-localstorage'
-import VueCookie from 'vue-cookie'
 import Components from '@/components'
-import moment from 'moment'
 import FastClick from 'fastclick'
 import {onLoad, getConfig,onScanning} from 'yiyun-app-sdk'
 
 import '@/plugins/index'
 
 import Interceptors from '@/request/interceptors'
-import filters from '@/extend/filters'
 import directives from '@/extend/directives'
-import mixins from '@/extend/mixins'
+
+import moment from 'moment'
 import utils from '@/utils'
 import config from '@/config'
-// import project from 'yiyun-project1'
-// console.log(project)
 import '@/assets/scss/main.scss'
-// Vue.use(project)
 
-import 'video.js/dist/video-js.css'
+let vm = {};
 Vue.config.productionTip = false
 
 Vue.config.errorHandler = function (err, vm, info) {
@@ -61,33 +55,40 @@ Object.assign(Vue.prototype, {
 //   }
 // };
 // FastClick.attach(document.body)
-Vue.use(Interceptors, axios)
-Vue.use(VueLocalStorage, {
-  name: 'ls'
-})
-Vue.use(VueCookie)
-Vue.use(directives)
-Vue.use(mixins)
-Vue.use(filters)
-Vue.use(Components)
-// onLoad(() => {
-//   let config = getConfig();
-//   console.log(config)
-//   window.sessionStorage.setItem('Authorization', config.authToken);
-//   window.sessionStorage.setItem('AUTH', config.userTypes);
-//   window.sessionStorage.setItem('MemberToken', config.memberToken);
-//   window.sessionStorage.setItem('OrganizationId', config.organizationId);
-//   window.sessionStorage.setItem('MemberId', config.memberId);
-//   // window.sessionStorage.setItem('QrCodeParams', JSON.stringify(config.qrCodeParams));
-//   window.sessionStorage.setItem('Route', JSON.stringify(config.route));
 
-// })
-// onScanning((res)=>{
-//   console.log('res',res)
-//   console.log(231)
-// });
-new Vue({
-  router,
-  store,
-  render: (h) => h(App),
-}).$mount('#app')
+Vue.use(Interceptors, axios)
+Vue.use(directives)
+Vue.use(Components)
+
+
+onLoad(() => {
+  let config = getConfig();
+  console.log('config',config)
+  window.sessionStorage.setItem('Authorization', config.authToken);
+  window.sessionStorage.setItem('AUTH', config.userTypes);
+  window.sessionStorage.setItem('MemberToken', config.memberToken);
+  window.sessionStorage.setItem('OrganizationId', config.organizationId);
+  window.sessionStorage.setItem('MemberId', config.memberId);
+  window.sessionStorage.setItem('QrCodeParams', JSON.stringify(config.qrCodeParams));
+  window.sessionStorage.setItem('Route', JSON.stringify(config.route));
+  window.sessionStorage.setItem('ModelStatus', config.device);
+  if(process.env.VUE_APP_MODE !== 'staging'){
+    vm.a = new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app');
+  }
+})
+
+if(process.env.VUE_APP_MODE == 'staging'){
+  window.sessionStorage.setItem('AUTH', 'AppHead');
+  window.sessionStorage.setItem('MemberId', '3gf2aREXRV9');
+  window.sessionStorage.setItem('OrganizationId', '3eCv1dMQ9v7');
+  vm.a = new Vue({
+    router,
+    store,
+    render: (h) => h(App),
+  }).$mount('#app')
+}
+export default vm;

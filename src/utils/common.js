@@ -77,35 +77,16 @@ function selectInput(e){
   }
 }
 function newdata(level, time) {
-  let new_data = time ? new Date(time) : new Date();
-  let getHours = new_data.getMinutes() < 10 ? "0" + new_data.getMinutes() : new_data.getMinutes();
-  let data
-  if (level == 'NNSS') {
-    data = (new_data.getFullYear() + "/" + (parseInt(new_data.getMonth()) + 1) + "/" + new_data.getDate() + "  " + new_data.getHours() + ":" + getHours);
-  } else if (level == 'NN') {
-    data = (new_data.getFullYear() + "/" + (parseInt(new_data.getMonth()) + 1) + "/" + new_data.getDate());
-  } else if (level == 'yyss') {
-    data = ((parseInt(new_data.getMonth()) + 1) + "/" + new_data.getDate() + "  " + new_data.getHours() + ":" + getHours);
-  } else if (level == 'nnyy') {
-    data = (new_data.getFullYear() + "/" + (parseInt(new_data.getMonth()) + 1));
-  } else if (level == 'nn') {
-    data = (new_data.getFullYear());
-  } else if (level == 'yy') {
-    data = (parseInt(new_data.getMonth()) + 1) + '/' + new_data.getDate()
-  } else if (level == 'SS') {
-    data = new_data.getHours() + ":" + getHours
-  } else if (level == 'Time') {
-    data = time < 60 ? parseInt(time) + '秒' : time >= 60 && time < 3600 ? parseInt(time / 60) + '分钟' : time >= 3600 ? parseInt(time / 60 / 60) + '小时' : 0
-  } else if (level == 'hms') {
-    let h = Math.floor(time / 1000 / 60 / 60);
-    let m = Math.floor(time / 1000 / 60 % 60);
-    let s = Math.floor(time / 1000 % 60);
-    h = h < 10 ? ("0" + h) : h;
-    m = m < 10 ? ("0" + m) : m;
-    s = s < 10 ? ("0" + s) : s;
-    data = h + ':' + m + ':' + s
+  if(level == 'TIME'){
+    return time<60 ? time + '秒': time>=60 && time<3600 ? Math.floor((time/60)) + '分钟' : time>=3600 ? Math.floor(time/(60*60)) + '小时':''
   }
-  return data
+  let h = Math.floor(time / 1000 / 60 / 60);
+  let m = Math.floor(time / 1000 / 60 % 60);
+  let s = Math.floor(time / 1000 % 60);
+  h = h < 10 ? ("0" + h) : h;
+  m = m < 10 ? ("0" + m) : m;
+  s = s < 10 ? ("0" + s) : s;
+  return h + ':' + m + ':' + s
 }
 function toChinesNum(num) {
   let changeNum = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];

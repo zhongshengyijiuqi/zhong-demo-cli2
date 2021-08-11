@@ -7,13 +7,13 @@
         </keep-alive>
         <div id="footer" class="footer" v-show="showFooter">
             <ul>
-                <!-- <li>
-                    <router-link to="/my/my-index">
-                        <img src="./assets/images/baobiao2.png" v-if="path=='/my/my-index'" alt />
-                        <img src="./assets/images/baobiao1.png" alt v-else />
-                        <p :class="path =='/my/my-index'?'p':''">我的</p>
+                <li>
+                    <router-link to="/common">
+                        <i class="iconfont cur" v-if="path=='/common'">&#xe6ba;</i>
+                        <i class="iconfont" v-else>&#xe643;</i>
+                        <p :class="path =='/common'?'p':''" >模板</p>
                     </router-link>
-                </li> -->
+                </li>
             </ul>
         </div>
     </div>
@@ -54,8 +54,6 @@ export default {
   data() {
     return {
       path: this.$route.path,
-      Time:'',
-      nums:1,
     };
   },
   async created() {
@@ -65,11 +63,9 @@ export default {
   beforeRouteUpdate(to, from, next) {},
   mounted() {
     let vConsole = new VConsole();
-    let environment = this.judgingModel()
-     this.$store.commit("environmentFun", environment);
+     
     // console.log(this.userInformationId)
-    //  this.Time = setInterval(this.uncomfortable,1000)
-    // console.log(this.env)
+    this.uncomfortable()
 
   },
   methods: {
@@ -80,24 +76,25 @@ export default {
       // IOS
       var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
       if(isAndroid){
-        return 'Android'
+        this.$store.commit("environmentFun", 'Android');
       }else if(isiOS){
-        return 'ios'
+        this.$store.commit("environmentFun", 'ios');
       }
     },
     async uncomfortable(){
       if (window.sessionStorage.OrganizationId) {
         try {
-          clearInterval(this.Time)
           let num = await this.postAuthorize({
             token:'',
             // token:window.sessionStorage.MemberToken,
             orgGuid:window.sessionStorage.OrganizationId,
             mbGuid:window.sessionStorage.MemberId,
-            appType:3,
+            appType:15,
           });//app授权
           this.$axios.defaults.headers.common["Authorization"] = num.token_type + " " + num.access_token;
-            await this.getUserInformation()//企业信息
+          this.judgingModel()
+          await this.getUserInformation()//企业信息
+
             // if(JSON.parse(window.sessionStorage.getItem('Route'))&&JSON.parse(window.sessionStorage.getItem('Route')).actionType){//消息推送
             //   let routeObj = JSON.parse(window.sessionStorage.getItem('Route'))
             //   if(routeObj.actionType == 1017){
@@ -108,22 +105,16 @@ export default {
           console.log(error)
           this.$dialog.alert({title: '标题', message:'客户端错误'})
         }
-      }else if(this.nums>=10){
-        clearInterval(this.Time)
-        this.$dialog.alert({title: '标题', message:'登录状态失效，请重新登录'}).then(action => {
-        // closeApp()
-        });
-      }else{
-        this.nums = this.nums + 1
-      }
-      console.log(this.nums)
+      }this.$dialog.alert({title: '标题', message:'登录状态失效，请重新登录'}).then(action => {
+        closeApp()
+      });
     },
     ...mapActions(["postAuthorize","getUserInformation"])
   },
   computed: {
     ...mapGetters(["env",'userInformationId','direction']),
     showFooter() {
-      if (this.path == "/statistics/statistics-index" || this.path == "/setUp/setUp-index" || this.path == "/fillIn/fillIn-index") {
+      if (this.path == "/common") {
         return true;
       } else {
         return false;
