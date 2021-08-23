@@ -59,7 +59,16 @@ Object.assign(Vue.prototype, {
 Vue.use(Interceptors, axios)
 Vue.use(directives)
 Vue.use(Components)
-
+window.document.addEventListener("error", e => {
+  if (e.target.tagName.toLowerCase() === 'img') {
+      //有avatar代表头像
+      if (e.target.getAttribute('avatar')) {
+          e.target.src = "https://dl-yiyunappclient.effio.cn/resource/common/avatar.png"
+      } else {
+          e.target.src = "https://dl-yiyunappclient.effio.cn/resource/common/loadError.png"
+      }
+  }
+}, true)
 
 onLoad(() => {
   let config = getConfig();

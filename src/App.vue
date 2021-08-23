@@ -136,14 +136,14 @@ export default {
     async uncomfortable(){
       if (window.sessionStorage.OrganizationId) {
         try {
-          let num = await this.postAuthorize({
+          let res = await this.postAuthorize({
             token:'',
             // token:window.sessionStorage.MemberToken,
             orgGuid:window.sessionStorage.OrganizationId,
             mbGuid:window.sessionStorage.MemberId,
             appType:15,
           });//app授权
-          this.$axios.defaults.headers.common["Authorization"] = num.token_type + " " + num.access_token;
+          this.$axios.defaults.headers.common["Authorization"] = res.token_type + " " + res.access_token;
           this.judgingModel()
           await this.getUserInformation()//企业信息
 
@@ -157,9 +157,11 @@ export default {
           console.log(error)
           this.$dialog.alert({title: '标题', message:'客户端错误'})
         }
-      }this.$dialog.alert({title: '标题', message:'登录状态失效，请重新登录'}).then(action => {
-        closeApp()
-      });
+      }else{
+        this.$dialog.alert({title: '标题', message:'登录状态失效，请重新登录'}).then(action => {
+          closeApp()
+        });
+      }
     },
     ...mapActions(["postAuthorize","getUserInformation"])
   },

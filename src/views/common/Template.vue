@@ -1,6 +1,7 @@
 <!--模板-->
 <template>
   <div class="template-index">
+    <img src="" alt="" avatar="avatar">
       模板
   </div>
 </template>

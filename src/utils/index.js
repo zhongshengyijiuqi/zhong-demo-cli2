@@ -1,5 +1,6 @@
 import { isEmail, isIdCard, isPhoneNum, isUrl } from '@/utils/validate.js'
 import { 
+  awaitToken,
   sleep, 
   getUniqueId, 
   getPlatform,
@@ -8,7 +9,6 @@ import {
   selectInput,
   newdata,
   toChinesNum,
-  imgError,
   judgeObj,
   numberFormat,
 } from '@/utils/common.js'
@@ -21,7 +21,7 @@ export default {
   isPhoneNum,
   isUrl,
 
-
+  awaitToken,
   sleep,
   getUniqueId,
   getPlatform,
@@ -30,7 +30,6 @@ export default {
   selectInput,
   newdata,
   toChinesNum,
-  imgError,
   judgeObj,
   numberFormat,
 

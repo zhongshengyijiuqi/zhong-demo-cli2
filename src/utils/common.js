@@ -10,7 +10,17 @@ function getPlatform() {
   if (/ipad/i.test(userAgent)) return 'ipad';
   if (/android/i.test(userAgent)) return 'android';
 }
-
+function awaitToken(state, r) {
+  return new Promise(async (resolve, reject) => {
+    if (!r) r = resolve
+    if (!state.session) {
+      await sleep(100)
+      return awaitToken(state, r)
+    } else {
+      r()
+    }
+  })
+}
 /**
  *
  * @desc 睡眠
@@ -33,13 +43,13 @@ function sleep(time) {
 function getUniqueId() {
   return Symbol('id')
 }
-function isIosInput(e){ //ios失去焦点 焦点不下移
+function isIosInput(e){ //ios失去焦点 焦点不下移  
   var u = navigator.userAgent;
   var flag;
   var timer;
   var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
   // console.log(e)
-  if(e&&e.target.nameValueMaterial){
+  if(e&&e.target.nameValueMaterial){ //输入时值消失方法配套
     if(!e.target.typeMaterial){
       e.target.value = e.target.nameValueMaterial
     }
@@ -63,13 +73,13 @@ function isIosInput(e){ //ios失去焦点 焦点不下移
     return false;
   }
 }
-function inputInput(e){
+function inputInput(e){ //输入时值消失方法配套
   if(e){
       e.target.typeMaterial = true
   }
 
 }
-function selectInput(e){
+function selectInput(e){//输入时值消失方法配套
   if(e){
     e.target.nameValueMaterial = JSON.parse(JSON.stringify(e.target.value))
     e.target.typeMaterial = false
@@ -107,10 +117,10 @@ function toChinesNum(num) {
   }
   return overWan ? getWan(overWan) + "万" + getWan(noWan) : getWan(num);
 }
-function imgError(e) {
-  e.target.src = 'https://dl-yiyunappclient.effio.cn/resource/common/avatar.png'
-  e.οnerrοr = null;
-}
+// function imgError(e) {
+//   e.target.src = 'https://dl-yiyunappclient.effio.cn/resource/common/avatar.png'
+//   e.οnerrοr = null;
+// }
 function judgeObj(str) {//判断是否为json字符串
   if (typeof str == 'string') {
     try {
@@ -156,6 +166,7 @@ function numberFormat(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 export {
+  awaitToken,
   getPlatform,
   sleep,
   getUniqueId,
@@ -164,7 +175,6 @@ export {
   selectInput,
   newdata,
   toChinesNum,
-  imgError,
   judgeObj,
   numberFormat,
 }

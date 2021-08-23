@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {commonRequest} from '@/request/api'
-
+import Vue from 'vue'
+let popup = Vue.prototype
 async function setOssToken({commit}) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -9,7 +10,6 @@ async function setOssToken({commit}) {
       commit('setOssTokenRefreshTime', new Date())
       commit('setOssToken', res.data.Data)
     } catch (error) {
-      resolve(null)
       reject(error)
     }
   })
@@ -67,7 +67,6 @@ async function uploadOss({state, dispatch}, {file}) {
         }
       });
     } catch (error) {
-      resolve(null)
       reject(error)
     }
     resolve(filename)
@@ -78,9 +77,9 @@ async function postAuthorize({commit},obj) { //授权
     try {
      
       let res = await commonRequest.postAuthorize(obj)
-      commit('sessionFun', res.data.token_type + " " + res.data.access_token)
-      commit('userInformationFun',res.data.profile)
-      resolve(res.data)
+      commit('sessionFun', res.token_type + " " + res.access_token)
+      commit('userInformationFun',res.profile)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
@@ -92,8 +91,30 @@ async function getUserInformation({rootState,commit},obj) {//用户信息
       
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.getUserInformation(obj)
-        commit('userInformationIdFun', res.data)
-        resolve(res.data)
+        commit('userInformationIdFun', res)
+        resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function getDeptList({rootState,commit},obj) {//得到当前组织部门
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.getDeptList(obj)
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function postMemberInfoByDept({rootState,commit},obj) {//按部门查成员
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.postMemberInfoByDept(obj)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
@@ -103,5 +124,7 @@ export {
   setOssToken,
   uploadOss,
   postAuthorize,
-  getUserInformation
+  getUserInformation,
+  getDeptList,
+  postMemberInfoByDept
 }
