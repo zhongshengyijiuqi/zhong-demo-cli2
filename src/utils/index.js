@@ -1,4 +1,4 @@
-import { isEmail, isIdCard, isPhoneNum, isUrl } from '@/utils/validate.js'
+
 import { 
   awaitToken,
   sleep, 
@@ -12,15 +12,26 @@ import {
   judgeObj,
   numberFormat,
 } from '@/utils/common.js'
+import { 
+  isEmail, 
+  isIdCard, 
+  isPhoneRigorous, 
+  isPhoneLoose,
+  isLandline, 
+  isUrl,  
+  isImageFormat,
+  isBase64,  
+  isAlphanumeric,
+  isNumber,
+  isAmount,
+  isEnglish,
+  isChinese 
+} from '@/utils/validate.js'
 import { parseQueryString, stringifyQueryString, getPath, Cookie2Json } from '@/utils/queryString.js'
-import { filterSpecial, filterNumber } from '@/utils/filters.js'
+import { filterSpecial } from '@/utils/filters.js'
 
 export default {
-  isEmail,
-  isIdCard,
-  isPhoneNum,
-  isUrl,
-
+  //常用函数
   awaitToken,
   sleep,
   getUniqueId,
@@ -32,7 +43,22 @@ export default {
   toChinesNum,
   judgeObj,
   numberFormat,
+  //常用正则
+  isEmail, 
+  isIdCard, 
+  isPhoneRigorous, 
+  isPhoneLoose,
+  isLandline, 
+  isUrl,  
+  isImageFormat,
+  isBase64,  
+  isAlphanumeric,
+  isNumber,
+  isAmount,
+  isEnglish,
+  isChinese,
 
+  
   parseQueryString,
   stringifyQueryString,
   getPath,
@@ -40,5 +66,4 @@ export default {
 
 
   filterSpecial,
-  filterNumber,
 }

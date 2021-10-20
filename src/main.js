@@ -59,6 +59,7 @@ Object.assign(Vue.prototype, {
 Vue.use(Interceptors, axios)
 Vue.use(directives)
 Vue.use(Components)
+
 window.document.addEventListener("error", e => {
   if (e.target.tagName.toLowerCase() === 'img') {
       //有avatar代表头像
