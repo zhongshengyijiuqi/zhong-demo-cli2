@@ -7,5 +7,4 @@ export default {
   session: state => state.session,//身份验证Token
   userInformationId: state => state.userInformationId,//企业和个人信息
   userInformation: state => state.userInformation,//授权信息
-  systemReturn: state => state.systemReturn,//系统返回数据
 }

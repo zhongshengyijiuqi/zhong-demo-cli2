@@ -76,37 +76,22 @@ export default {
       // IOS
       var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
       if(isAndroid){
-        onBack(() => {
-          // 安卓按钮已经点击
-          if(this.$route.path == '/materialEntry/administration-index'){
-              this.SignOut = this.SignOut + 1
-              this.$toast('再次点击退出应用');
-              setTimeout(() =>{
-                this.SignOut = 0
-              },3000)
-              if(this.SignOut>1){
-                closeApp()
-              }
-          }else{
-            this.$router.go(-1);
-          }
-        })
         this.$store.commit("environmentFun", window.sessionStorage.ModelStatus == 'PDA'?'PDA':'Android');
       }else if(isiOS){
         document.body.addEventListener("focusin", async() => {
         //软键盘弹出的事件处理
-          document.addEventListener('scroll',scrollDel,false)
-          await this.$utils.sleep(500)
-          document.removeEventListener('scroll',scrollDel,false)
+          // document.addEventListener('scroll',scrollDel,false)
+          // await this.$utils.sleep(500)
+          // document.removeEventListener('scroll',scrollDel,false)
 
           document.body.addEventListener('touchmove',touchmoveDel,false)
         });
         document.body.addEventListener("focusout", () => {
-          //软键盘收起的事件处理
-          let headS = document.getElementById('headS')
-          if(headS){
-              headS.style.top = 0 + 'px'
-            }
+          // //软键盘收起的事件处理
+          // let headS = document.getElementById('headS')
+          // if(headS){
+          //     headS.style.top = 0 + 'px'
+          //   }
           document.body.removeEventListener('touchmove',touchmoveDel,false);
         });
         function touchmoveDel(e){
@@ -122,14 +107,14 @@ export default {
             S_textarea[i].blur()
           }
         }
-        function scrollDel(){
-           let headS = document.getElementById('headS')
-           let t = document.documentElement.scrollTop||document.body.scrollTop;
-            if(headS){
-              // headS.style.top = t + 'px'
-              headS.style.top = 0 + 'px'
-            }
-        }
+        // function scrollDel(){
+        //    let headS = document.getElementById('headS')
+        //    let t = document.documentElement.scrollTop||document.body.scrollTop;
+        //     if(headS){
+        //       // headS.style.top = t + 'px'
+        //       headS.style.top = 0 + 'px'
+        //     }
+        // }
         this.$store.commit("environmentFun", 'ios');
       }
     },

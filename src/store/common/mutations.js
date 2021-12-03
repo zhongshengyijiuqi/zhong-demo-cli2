@@ -23,8 +23,5 @@ export default {
   userInformationFun(state, userInformation) {//授权
     state.userInformation = userInformation
   },
-  systemReturnFun(state, systemReturn) {//系统返回数据
-    state.systemReturn = systemReturn
-  },
 }
 

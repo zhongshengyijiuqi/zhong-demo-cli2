@@ -165,7 +165,10 @@ export default {
   watch: {
     data(v) {
       setTimeout(() => {
-        if (this.$refs.wrapper.offsetHeight >=this.$refs.wrapper.firstChild.offsetHeight) {
+        if (
+          this.$refs.wrapper.offsetHeight >=
+          this.$refs.wrapper.firstChild.offsetHeight
+        ) {
           this.destroy();
           this.scroll = null;
         } else {

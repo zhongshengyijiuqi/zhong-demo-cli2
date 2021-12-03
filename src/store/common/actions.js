@@ -2,11 +2,23 @@ import axios from 'axios'
 import {commonRequest} from '@/request/api'
 import Vue from 'vue'
 let popup = Vue.prototype
-async function setOssToken({commit}) {
+async function setOssToken({ commit }) {
   return new Promise(async (resolve, reject) => {
     try {
-      let res = await commonRequest.getOssToken({type: 1})
-      resolve(res.data)
+      let res = await commonRequest.GetOSSSigned()
+      resolve(res)
+      commit('setOssTokenRefreshTime', new Date())
+      commit('setOssToken', res.data.Data)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function setTempFileSigned({ commit }) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let res = await commonRequest.GetTemOssPolicyToken()
+      resolve(res)
       commit('setOssTokenRefreshTime', new Date())
       commit('setOssToken', res.data.Data)
     } catch (error) {
@@ -17,14 +29,21 @@ async function setOssToken({commit}) {
 
 const pureAxios = axios.create()
 const ossExpirationTime = 240000
-async function uploadOss({state, dispatch}, {file}) {
+async function uploadOss({ state, dispatch }, { file ,type}) {
   return new Promise(async (resolve, reject) => {
     let oss = state.ossToken
     if (!state.ossToken || !state.ossTokenRefreshTime || new Date() - state.ossTokenRefreshTime > ossExpirationTime) {
       try {
-        let res = await dispatch('setOssToken')
-        oss = res.Data
+        let res
+        if(type){
+          res = await dispatch('setTempFileSigned')
+        }else{
+          res = await dispatch('setOssToken')
+        }
+        oss = res.data
+        console.log('oss',oss)
       } catch (error) {
+        console.log('error',error)
         reject(error)
       }
     }
@@ -32,15 +51,15 @@ async function uploadOss({state, dispatch}, {file}) {
     let blob
     if (typeof (file) !== 'object') {
       let bytes = window.atob(file.split(',')[1])
-  
+
       let array = []
       for (let i = 0; i < bytes.length; i++) {
         array.push(bytes.charCodeAt(i))
       }
       let base64Type = file.slice(file.indexOf(':') + 1, file.indexOf(';'))
-  
+
       fileType = base64Type.slice(base64Type.indexOf('/') + 1)
-  
+
       blob = new Blob([new Uint8Array(array)], {
         type: base64Type
       })
@@ -51,25 +70,25 @@ async function uploadOss({state, dispatch}, {file}) {
     }
     let filename = Date.now() + '.' + fileType
     let data = new FormData()
-  
-    data.append('key', oss.bucketNameFile + '$' + '{filename}')
-    data.append('bucket', oss.bucketName)
-    data.append('x-oss-meta-tag', 'dummy_etag_xxx')
-    data.append('OSSAccessKeyId', oss.accessKeyId)
-    data.append('policy', oss.encPolicy)
-    data.append('Signature', oss.signature)
-    data.append('file', blob, filename)
-    data.append('success_action_status', '200')
+    data.append("key", oss.data.dir + "${filename}");
+    data.append("callback", oss.data.callback);
+    data.append("OSSAccessKeyId", oss.data.accessid);
+    data.append("policy", oss.data.policy);
+    data.append("signature", oss.data.signature);
+    data.append("file", blob, filename);
+    data.append("success_action_status", "200");
     try {
-      await pureAxios.post(oss.requestUri, data, {
+      let res = await pureAxios.post(oss.data.host, data, {
         headers: {
-          'Content-Type': 'multipart/form-data'          
+          'Content-Type': 'multipart/form-data'
         }
       });
+      console.log('pureAxios',res)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
-    resolve(filename)
+    resolve(`${oss.data.url}${filename}`)
   })
 }
 async function postAuthorize({commit},obj) { //授权
@@ -85,36 +104,76 @@ async function postAuthorize({commit},obj) { //授权
     }
   })
 }
-async function getUserInformation({rootState,commit},obj) {//用户信息
+async function GetAppUserInfo({rootState,commit},obj) {//用户信息
   return new Promise(async (resolve, reject) => {
     try {
       
       await popup.$utils.awaitToken(rootState.common)
-      let res = await commonRequest.getUserInformation(obj)
-        commit('userInformationIdFun', res)
-        resolve(res)
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
-async function getDeptList({rootState,commit},obj) {//得到当前组织部门
-  return new Promise(async (resolve, reject) => {
-    try {
-      await popup.$utils.awaitToken(rootState.common)
-      let res = await commonRequest.getDeptList(obj)
+      let res = await commonRequest.GetAppUserInfo(obj)
+      document.title = res.data.appName
+      let link = document.querySelector("link[rel*='icon']") || document.createElement("link");
+      link.type = "image/x-icon";
+      link.rel = "shortcut icon";
+      link.href = res.data.appLogo;  //icon图标
+      document.getElementsByTagName("head")[0].appendChild(link);
+      commit('userInformationIdFun', res)
       resolve(res)
     } catch (error) {
       reject(error)
     }
   })
 }
-async function postMemberInfoByDept({rootState,commit},obj) {//按部门查成员
+async function GetDeptList({rootState,commit},obj) {//得到当前组织部门
   return new Promise(async (resolve, reject) => {
     try {
       await popup.$utils.awaitToken(rootState.common)
-      let res = await commonRequest.postMemberInfoByDept(obj)
+      let res = await commonRequest.GetDeptList(obj)
       resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function GetMemberInfoByDept({rootState,commit},obj) {//按部门查成员
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.GetMemberInfoByDept(obj)
+      resolve(res)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function GetFactoryModel({rootState,commit},obj) {//企业模型
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.GetFactoryModel(obj)
+      resolve(res.data)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+async function GetSearchHistory({rootState,commit},obj) {//查询接口历史查询记录
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.GetSearchHistory(obj)
+      resolve(res.data)
+    } catch (error) {
+      reject(error)
+    }
+  })
+}
+
+async function SaveSearchHistory({rootState,commit},obj) { //保存历史查询记录
+  return new Promise(async (resolve, reject) => {
+    try {
+      await popup.$utils.awaitToken(rootState.common)
+      let res = await commonRequest.SaveSearchHistory(obj)
+      resolve(res.data)
     } catch (error) {
       reject(error)
     }
@@ -122,9 +181,13 @@ async function postMemberInfoByDept({rootState,commit},obj) {//按部门查成�
 }
 export {
   setOssToken,
+  setTempFileSigned,
   uploadOss,
   postAuthorize,
-  getUserInformation,
-  getDeptList,
-  postMemberInfoByDept
+  GetAppUserInfo,
+  GetDeptList,
+  GetMemberInfoByDept,
+  GetFactoryModel,
+  GetSearchHistory,
+  SaveSearchHistory,
 }

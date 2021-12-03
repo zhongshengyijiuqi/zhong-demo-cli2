@@ -10,6 +10,7 @@ import {
   newdata,
   toChinesNum,
   judgeObj,
+  debounce,
   numberFormat,
 } from '@/utils/common.js'
 import { 
@@ -42,6 +43,7 @@ export default {
   newdata,
   toChinesNum,
   judgeObj,
+  debounce,
   numberFormat,
   //常用正则
   isEmail, 

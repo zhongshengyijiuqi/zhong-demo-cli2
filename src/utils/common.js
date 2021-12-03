@@ -136,6 +136,19 @@ function judgeObj(str) {//判断是否为json字符串
     }
   }
 }
+const debounce = (() => {
+  let timer = null
+  return (fn, wait) => {
+    if (timer) {
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      fn()
+      clearTimeout(timer)
+      timer = null
+    }, wait)
+  };
+})()
 /*
  * 参数说明：
  * number：要格式化的数字
@@ -165,6 +178,65 @@ function numberFormat(number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
+function echartsScale(maxData,value){//报表数量单位规则
+  let maxY = 5
+  let zY = 1 
+  let ECompany = ''
+  let ENum = 0
+  if(0<=maxData&&maxData<=50000){
+    ECompany = ''
+    ENum = maxData
+  }else if(50000<=maxData&&maxData<=500000000){
+    ECompany = '万'
+    ENum = parseFloat((maxData/10000).toFixed(2))
+  }else if(maxData>500000000){
+    ECompany = '亿'
+    ENum = parseFloat((maxData/100000000).toFixed(2))
+  }
+  if(ENum>maxY){
+    zY = Math.ceil(ENum/maxY)
+  }
+  return value == 1?zY*maxY:ECompany
+}
+function scaleNum(max,company,value,maxy){ //报表时间单位规则
+  let maxY = maxy || 5
+  let zY = 1
+  let SCompany = 'm'
+  let Svalue = 0
+  if(company == 'SS'){
+    let STime = parseFloat(max/60)
+    if(0<=STime&&STime<=300){
+      SCompany = 'm'
+      Svalue = STime
+    }
+    if(STime>300&&STime<=7200){
+      SCompany = 'h'
+      Svalue = Math.ceil(STime/60)
+    }
+    if(STime>7200){
+      SCompany = 'd'
+      Svalue = Math.ceil(STime/60/24)
+    }
+  }else if(company == 'MM'){
+    let STime = max
+    if(0<=STime&&STime<=300){
+      SCompany = 'm'
+      Svalue = STime
+    }
+    if(STime>300&&STime<=7200){
+      SCompany = 'h'
+      Svalue = Math.ceil(STime/60)
+    }
+    if(STime>7200){
+      SCompany = 'd'
+      Svalue = Math.ceil(STime/60/24)
+    }
+  }
+  if(Svalue>maxY){
+    zY = Math.ceil(Svalue/maxY)
+  }
+  return value == 1?zY*maxY:value == 2?SCompany:Svalue
+}
 export {
   awaitToken,
   getPlatform,
@@ -176,5 +248,6 @@ export {
   newdata,
   toChinesNum,
   judgeObj,
+  debounce,
   numberFormat,
 }

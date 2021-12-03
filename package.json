@@ -25,6 +25,7 @@
     "vue-meta": "^2.0.4",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1",
+    "yiyun-app-ozs": "^1.1.26",
     "yiyun-app-sdk": "^1.2.43"
   },
   "devDependencies": {

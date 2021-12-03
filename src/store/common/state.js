@@ -7,7 +7,4 @@ export default {
   session:'', //身份验证Token
   userInformationId:'',//用户和企业信息
   userInformation:'',//授权信息
-  systemReturn:{
-    regionShow:false
-  },//系统返回数据
 }
