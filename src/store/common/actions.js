@@ -110,11 +110,11 @@ async function GetAppUserInfo({rootState,commit},obj) {//用户信息
       
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.GetAppUserInfo(obj)
-      document.title = res.data.appName
+      document.title = res.appName
       let link = document.querySelector("link[rel*='icon']") || document.createElement("link");
       link.type = "image/x-icon";
       link.rel = "shortcut icon";
-      link.href = res.data.appLogo;  //icon图标
+      link.href = res.appLogo;  //icon图标
       document.getElementsByTagName("head")[0].appendChild(link);
       commit('userInformationIdFun', res)
       resolve(res)
@@ -150,7 +150,7 @@ async function GetFactoryModel({rootState,commit},obj) {//企业模型
     try {
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.GetFactoryModel(obj)
-      resolve(res.data)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
@@ -161,7 +161,7 @@ async function GetSearchHistory({rootState,commit},obj) {//查询接口历史查
     try {
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.GetSearchHistory(obj)
-      resolve(res.data)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
@@ -173,7 +173,7 @@ async function SaveSearchHistory({rootState,commit},obj) { //保存历史查询�
     try {
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.SaveSearchHistory(obj)
-      resolve(res.data)
+      resolve(res)
     } catch (error) {
       reject(error)
     }
