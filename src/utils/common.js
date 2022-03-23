@@ -43,14 +43,14 @@ function sleep(time) {
 function getUniqueId() {
   return Symbol('id')
 }
-function isIosInput(e){ //ios失去焦点 焦点不下移  
+function isIosInput(e) { //ios失去焦点 焦点不下移  
   var u = navigator.userAgent;
   var flag;
   var timer;
   var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
   // console.log(e)
-  if(e&&e.target.nameValueMaterial){ //输入时值消失方法配套
-    if(!e.target.typeMaterial){
+  if (e && e.target.nameValueMaterial) { //输入时值消失方法配套
+    if (!e.target.typeMaterial) {
       e.target.value = e.target.nameValueMaterial
     }
   }
@@ -62,7 +62,7 @@ function isIosInput(e){ //ios失去焦点 焦点不下移
     document.body.addEventListener('focusout', () => { //软键盘关闭事件
       flag = false;
       if (!flag) {
-        timer = setTimeout( ()=> {
+        timer = setTimeout(() => {
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" })//重点  =======当键盘收起的时候让页面回到原始位置(这里的top可以根据你们个人的需求改变，并不一定要回到页面顶部)
         }, 200);
       } else {
@@ -73,22 +73,22 @@ function isIosInput(e){ //ios失去焦点 焦点不下移
     return false;
   }
 }
-function inputInput(e){ //输入时值消失方法配套
-  if(e){
-      e.target.typeMaterial = true
+function inputInput(e) { //输入时值消失方法配套
+  if (e) {
+    e.target.typeMaterial = true
   }
 
 }
-function selectInput(e){//输入时值消失方法配套
-  if(e){
+function selectInput(e) {//输入时值消失方法配套
+  if (e) {
     e.target.nameValueMaterial = JSON.parse(JSON.stringify(e.target.value))
     e.target.typeMaterial = false
     e.target.value = ''
   }
 }
 function newdata(level, time) {
-  if(level == 'TIME'){
-    return time<60 ? time + '秒': time>=60 && time<3600 ? Math.floor((time/60)) + '分钟' : time>=3600 ? Math.floor(time/(60*60)) + '小时':''
+  if (level == 'TIME') {
+    return time < 60 ? time + '秒' : time >= 60 && time < 3600 ? Math.floor((time / 60)) + '分钟' : time >= 3600 ? Math.floor(time / (60 * 60)) + '小时' : ''
   }
   let h = Math.floor(time / 1000 / 60 / 60);
   let m = Math.floor(time / 1000 / 60 % 60);
@@ -178,65 +178,81 @@ function numberFormat(number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
-function echartsScale(maxData,value){//报表数量单位规则
+function echartsScale(maxData, value) {//报表数量单位规则
   let maxY = 5
-  let zY = 1 
+  let zY = 1
   let ECompany = ''
   let ENum = 0
-  if(0<=maxData&&maxData<=50000){
+  if (0 <= maxData && maxData <= 50000) {
     ECompany = ''
     ENum = maxData
-  }else if(50000<=maxData&&maxData<=500000000){
+  } else if (50000 <= maxData && maxData <= 500000000) {
     ECompany = '万'
-    ENum = parseFloat((maxData/10000).toFixed(2))
-  }else if(maxData>500000000){
+    ENum = parseFloat((maxData / 10000).toFixed(2))
+  } else if (maxData > 500000000) {
     ECompany = '亿'
-    ENum = parseFloat((maxData/100000000).toFixed(2))
+    ENum = parseFloat((maxData / 100000000).toFixed(2))
   }
-  if(ENum>maxY){
-    zY = Math.ceil(ENum/maxY)
+  if (ENum > maxY) {
+    zY = Math.ceil(ENum / maxY)
   }
-  return value == 1?zY*maxY:ECompany
+  return value == 1 ? zY * maxY : ECompany
 }
-function scaleNum(max,company,value,maxy){ //报表时间单位规则
+function scaleNum(max, company, value, maxy) { //报表时间单位规则
   let maxY = maxy || 5
   let zY = 1
   let SCompany = 'm'
   let Svalue = 0
-  if(company == 'SS'){
-    let STime = parseFloat(max/60)
-    if(0<=STime&&STime<=300){
+  if (company == 'SS') {
+    let STime = parseFloat(max / 60)
+    if (0 <= STime && STime <= 300) {
       SCompany = 'm'
       Svalue = STime
     }
-    if(STime>300&&STime<=7200){
+    if (STime > 300 && STime <= 7200) {
       SCompany = 'h'
-      Svalue = Math.ceil(STime/60)
+      Svalue = Math.ceil(STime / 60)
     }
-    if(STime>7200){
+    if (STime > 7200) {
       SCompany = 'd'
-      Svalue = Math.ceil(STime/60/24)
+      Svalue = Math.ceil(STime / 60 / 24)
     }
-  }else if(company == 'MM'){
+  } else if (company == 'MM') {
     let STime = max
-    if(0<=STime&&STime<=300){
+    if (0 <= STime && STime <= 300) {
       SCompany = 'm'
       Svalue = STime
     }
-    if(STime>300&&STime<=7200){
+    if (STime > 300 && STime <= 7200) {
       SCompany = 'h'
-      Svalue = Math.ceil(STime/60)
+      Svalue = Math.ceil(STime / 60)
     }
-    if(STime>7200){
+    if (STime > 7200) {
       SCompany = 'd'
-      Svalue = Math.ceil(STime/60/24)
+      Svalue = Math.ceil(STime / 60 / 24)
     }
   }
-  if(Svalue>maxY){
-    zY = Math.ceil(Svalue/maxY)
+  if (Svalue > maxY) {
+    zY = Math.ceil(Svalue / maxY)
   }
-  return value == 1?zY*maxY:value == 2?SCompany:Svalue
+  return value == 1 ? zY * maxY : value == 2 ? SCompany : Svalue
 }
+// function seeFile(item, url) {
+//   console.log(item, url)
+//   let AName = item[url].split(".");
+//   let OName = AName[AName.length - 1];
+//   let src = item[url];
+//   // console.log(AName,OName,url)
+//   if (OName == "png" || OName == "jpg" || OName == "jpeg") {
+//     let imageList = [src];
+//     previewImage({
+//       initialIndex: 0,
+//       imageList: imageList,
+//     });
+//   } else {
+//     previewFile(url);
+//   }
+// }
 export {
   awaitToken,
   getPlatform,

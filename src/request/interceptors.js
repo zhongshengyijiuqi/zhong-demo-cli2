@@ -18,7 +18,7 @@ export default {
         if (res.data.code == 100) {
           return res.data
         } else {
-          _this.$notify({message:res.data.msg,duration: 3000});
+          _this.$notify({ message: res.data.msg, duration: 3000 });
           return res.data
         }
       } else {
@@ -28,28 +28,28 @@ export default {
       }
     }, (error) => {
       if (error.code === "ECONNABORTED" && error.message.includes('timeout')) {
-        _this.$notify({message: '网络请求超时,请检查网络',duration: 3000});
+        _this.$notify({ message: '网络请求超时,请检查网络', duration: 3000 });
       }
       if (error.response) {
         const status_error = error.response.status
         switch (status_error) {
           case 400:
-            _this.$notify({message: '请求参数有误',duration: 3000});
+            _this.$notify({ message: '请求参数有误', duration: 3000 });
             break;
           case 401:
-            _this.$notify({message: '账号未授权',duration: 3000});
+            _this.$notify({ message: '账号未授权', duration: 3000 });
             break;
           case 403:
-            _this.$notify({message: '账号无权限',duration: 3000});
+            _this.$notify({ message: '账号无权限', duration: 3000 });
             break
           case 404:
-            _this.$notify({message: '请求地址有误',duration: 3000,});
+            _this.$notify({ message: '请求地址有误', duration: 3000, });
             break
           case 500:
-            _this.$notify({message: '服务器出错',duration: 3000});
+            _this.$notify({ message: '服务器出错', duration: 3000 });
             break
           default:
-            _this.$notify({message: '网络错误',duration: 3000});
+            _this.$notify({ message: `${status_error}网络错误`, duration: 3000 });
             break
         }
       }
