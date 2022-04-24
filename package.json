@@ -9,13 +9,15 @@
     "analyze": "vue-cli-service build --mode analyze",
     "build-test": "vue-cli-service build --mode test",
     "build-ptest": "vue-cli-service build --mode ptest",
-    "build-staging": "vue-cli-service build --mode staging",
-    "build": "vue-cli-service build --mode production"
+    "build-staging": "vue-cli-service build --mode staging && sh build.sh",
+    "build": "vue-cli-service build --mode production && sh build.sh"
   },
   "dependencies": {
+    "archiver": "^5.3.1",
     "axios": "^0.19.0",
     "better-scroll": "^1.15.2",
     "core-js": "^2.6.5",
+    "echarts": "^5.3.2",
     "fastclick": "^1.0.6",
     "lodash": "^4.17.11",
     "moment": "^2.29.1",
