@@ -63,6 +63,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
 button[disabled], html input[disabled] {
   cursor: default;
 }
+input{
+  -webkit-appearance: none;
+}
 input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
