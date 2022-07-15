@@ -29,7 +29,8 @@ async function setTempFileSigned({ commit }) {
 
 const pureAxios = axios.create()
 const ossExpirationTime = 240000
-async function uploadOss({ state, dispatch }, { file, type }) {
+var fileNum = 0
+async function uploadOss({ state, dispatch }, { file, fileName = fileNum++, type }) {
   return new Promise(async (resolve, reject) => {
     let oss = state.ossToken
     if (!state.ossToken || !state.ossTokenRefreshTime || new Date() - state.ossTokenRefreshTime > ossExpirationTime) {
@@ -66,7 +67,8 @@ async function uploadOss({ state, dispatch }, { file, type }) {
       let temp = file.name.split('.')
       fileType = temp[temp.length - 1]
     }
-    let filename = `'file'${popup.$moment(Date.now()).format('YYYY-MM-DD_HH:mm:ss')}.${fileType}`
+
+    let filename = `${fileName + '_'}${popup.$moment(Date.now()).format('YYYY-MM-DD_HH:mm:ss')}.${fileType}`
     // let filename = Date.now() + '.' + fileType
     let data = new FormData()
     data.append("key", oss.dir + "${filename}");
