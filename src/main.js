@@ -76,6 +76,7 @@ onLoad(() => {
   if (process.env.VUE_APP_MODE === 'staging') {
     new VConsole();
   }
+  new VConsole();
   let config = getConfig();
   console.log('config', config)
   window.sessionStorage.setItem('Authorization', config.authToken);
