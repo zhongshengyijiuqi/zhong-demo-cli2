@@ -1,5 +1,4 @@
 export default {
-  env: state => state.env,
   ossToken: state => state.ossToken,
   ossTokenRefreshTime: state => state.ossTokenRefreshTime,
   environment: state => state.environment,

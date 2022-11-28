@@ -4,8 +4,7 @@ import router from './router'
 import store from './store/index'
 import axios from 'axios'
 import Components from '@/components'
-import FastClick from 'fastclick'
-import { onLoad, getConfig, onScanning } from 'yiyun-app-sdk'
+import { onLoad, getConfig } from 'yiyun-app-sdk'
 
 import '@/plugins/index'
 
@@ -14,10 +13,8 @@ import directives from '@/extend/directives'
 
 import moment from 'moment'
 import utils from '@/utils'
-import config from '@/config'
 import '@/assets/scss/main.scss'
 import VConsole from "vconsole";
-
 let vm = {};
 Vue.config.productionTip = false
 
@@ -40,22 +37,10 @@ window.addEventListener("unhandledrejection", function (e) {
 
 Object.assign(Vue.prototype, {
   $utils: utils,
-  $config: config,
   $moment: moment,
   $axios: axios
 })
-// FastClick.prototype.focus = function(targetElement) {
-//   var length;
-//   // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
-//   if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month' && targetElement.type !== 'email') {
-//       length = targetElement.value.length;
-//       targetElement.focus();//加入这一句话就OK了
-//       targetElement.setSelectionRange(length, length);
-//   } else {
-//       targetElement.focus();
-//   }
-// };
-// FastClick.attach(document.body)
+
 
 Vue.use(Interceptors, axios)
 Vue.use(directives)
@@ -73,10 +58,10 @@ window.document.addEventListener("error", e => {
 }, true)
 
 onLoad(() => {
-  if (process.env.VUE_APP_MODE === 'staging') {
-    new VConsole();
-  }
-  new VConsole();
+  // if (process.env.VUE_APP_MODE === 'staging') {
+  //   new VConsole();
+  // }
+  // new VConsole();
   let config = getConfig();
   console.log('config', config)
   window.sessionStorage.setItem('Authorization', config.authToken);
@@ -94,7 +79,7 @@ onLoad(() => {
   }).$mount('#app');
 })
 
-if (process.env.VUE_APP_MODE == 'development') {
+if (process.env.VUE_APP_MODE == 'staging') {
   window.sessionStorage.setItem('AUTH', 'AppHead');
   window.sessionStorage.setItem('MemberId', '3gf2aREXRV9');
   window.sessionStorage.setItem('OrganizationId', '3eCv1dMQ9v7');

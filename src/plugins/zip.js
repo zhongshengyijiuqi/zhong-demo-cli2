@@ -1,3 +1,4 @@
+// 建议压缩
 // 第一步，导入必要的模块
 const fs = require('fs');
 const archiver = require('archiver');

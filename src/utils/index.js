@@ -30,6 +30,7 @@ import {
 } from '@/utils/validate.js'
 import { parseQueryString, stringifyQueryString, getPath, Cookie2Json } from '@/utils/queryString.js'
 import { filterSpecial } from '@/utils/filters.js'
+import { cloneDeep} from '@/utils/cloneDeep.js'
 
 export default {
   //常用函数
@@ -68,4 +69,7 @@ export default {
 
 
   filterSpecial,
+
+  //深拷贝
+  cloneDeep
 }

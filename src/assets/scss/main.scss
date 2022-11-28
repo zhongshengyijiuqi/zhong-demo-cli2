@@ -2,25 +2,25 @@
 @import "./mixins.scss";
 @import "./reset.scss";
 
-html, body{
-  height: 100%;
-}
+
+/* CDN 服务仅供平台体验和调试使用，平台不承诺服务的稳定性，企业客户需下载字体包自行发布使用并做好备份。 */
+/*iconfont公共组件,不了解的请联系相关负责人*/
 @font-face {
-  font-family: 'iconfont';  /* project id 1954050 */
-  src: url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.eot');
-  src: url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.woff2') format('woff2'),
-  url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.woff') format('woff'),
-  url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_1954050_ssk6tt0u18r.svg#iconfont') format('svg');
+  font-family: 'iconfont';
+  /* Project id 1916440 */
+  src: url('//at.alicdn.com/t/c/font_1916440_i2ur13biw7q.woff2?t=1667177973969') format('woff2'),
+    url('//at.alicdn.com/t/c/font_1916440_i2ur13biw7q.woff?t=1667177973969') format('woff'),
+    url('//at.alicdn.com/t/c/font_1916440_i2ur13biw7q.ttf?t=1667177973969') format('truetype');
 }
-.iconfont{
-  font-family:"iconfont" !important;
-  font-size:1.5rem;font-style:normal;
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 1.5rem;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
-  // -webkit-text-stroke-width: .01rem;
   -moz-osx-font-smoothing: grayscale;
 }
+
 // img[lazy=loading] ,img[lazy=error]{//懒加载样式
 //   width: 3rem;
 //   height: 3rem;
@@ -36,21 +36,26 @@ html, body{
   // height:-moz-calc(100%-2.65rem); 
   // transition: all 0.5s;
   // transform: rotate(90deg);
-  height:calc(100% - 2.2rem);
+  height: calc(100% - 2.2rem);
   overflow: hidden;
 }
-.scroll-ove{
-  min-height:calc(100% + 0.1rem);
+
+.scroll-ove {
+  min-height: calc(100% + 0.1rem);
 }
+
 .btn {
   user-select: none;
+
   &.hover {
     opacity: .75;
   }
-  &.disabled{
+
+  &.disabled {
     background: #bbb;
   }
 }
+
 .page {
   position: fixed;
   top: 0;
@@ -64,123 +69,142 @@ html, body{
 .fade-enter {
   opacity: 0;
 }
-.fade-enter-active{
+
+.fade-enter-active {
   transition: opacity .5s;
 }
-.fade-enter-to{
+
+.fade-enter-to {
   opacity: 1;
 }
+
 .fade-leave {
   opacity: 1;
 }
+
 .fade-leave-active {
   transition: opacity 0
 }
+
 .fade-leave-to {
   opacity: 0;
 }
+
 //空白页
-.blank{
+.blank {
   display: flex;
   align-items: center;
   flex-direction: column;
   padding: 40% 0 0 0;
-  img{
-      width: 5.6rem;
-      height: 5.6rem;
-      margin-bottom: .3rem;
+
+  img {
+    width: 5.6rem;
+    height: 5.6rem;
+    margin-bottom: .3rem;
   }
-  span{
-      color: #303133;
-      font-size: .6rem;
-      margin-bottom: .3rem;
+
+  span {
+    color: #303133;
+    margin-bottom: .3rem;
+    font-size: .6rem;
   }
-  p{
-      color: #909399;
-      font-size: 0.6rem;
+
+  p {
+    color: #909399;
+    font-size: 0.6rem;
   }
 }
+
 //底
 .footer {
+  position: fixed;
+  bottom: 0;
   width: 100%;
   height: 2.65rem;
   border-top: 1px solid #eeeeee;
-  position: fixed;
-  bottom: 0;
-  z-index: 20;
   background-color: #ffffff;
+  z-index: 20;
   box-shadow: 0.2rem 0px 0.5rem 1px #eeeeee;
 }
-.footer > ul {
+
+.footer>ul {
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  padding: 0.2rem 0;
   height: 2.65rem;
+  padding: 0.2rem 0;
+  align-items: center;
 }
-.footer > ul > li {
-  text-align: center;
+
+.footer>ul>li {
   position: relative;
   flex: 1;
+  text-align: center;
 }
+
 .dangerTag {
   position: absolute;
   top: -0.2rem;
   right: 0;
   padding: 0 0.2rem;
 }
-.footer > ul > li a {
+
+.footer>ul>li a {
   width: 100%;
 }
-.footer > ul > li a i {
-  font-size: 1.1rem;
+
+.footer>ul>li a i {
   color: #909399;
+  font-size: 1.1rem;
 }
-.footer > ul > li a i.cur {
+
+.footer>ul>li a i.cur {
   color: #036cdd;
 }
-.footer > ul > li a img {
+
+.footer>ul>li a img {
   width: 1.25rem;
 }
-.footer > ul > li .p {
+
+.footer>ul>li .p {
   color: #303133;
 }
-.footer > ul > li p {
+
+.footer>ul>li p {
   color: #909399;
   font-size: 0.6rem;
-  // margin-top: .2rem;
 }
+
 //滚动条 列表
 .pullup-wrapper {
   width: 100%;
   height: 1.5rem;
 
   .before-trigger {
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .after-trigger {
-    width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 }
 
 .pulldown-wrapper {
   position: absolute;
-  width: 100%;
-  transform: translateY(-100%) translateZ(0);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   color: #999;
   padding-bottom: .4rem;
+  transform: translateY(-100%) translateZ(0);
 }
 
 .completeds-scroll,
@@ -198,67 +222,82 @@ html, body{
   backface-visibility: hidden;
 
 }
-.router-view.heads{
+
+.router-view.heads {
   padding-top: 2.2rem;
 }
-.router-view.footers{
+
+.router-view.footers {
   padding-bottom: 2.65rem;
 }
+
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
-  will-change: transform;
-  height: 100%;
   position: absolute;
   left: 0;
+  height: 100%;
+  will-change: transform;
 }
+
 .slide-right-enter-active {
   animation-name: popInLeft;
 }
+
 .slide-right-leave-active {
   animation-name: popOutRight;
 }
+
 .slide-left-enter-active {
   perspective: 1000;
   animation-name: popInRight;
 }
+
 .slide-left-leave-active {
   animation-name: popOutLeft;
 }
+
 @keyframes popInLeft {
   from {
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
   }
+
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 }
+
 @keyframes popOutLeft {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
     transform: translate3d(-100%, 0, 0);
   }
 }
+
 @keyframes popInRight {
   from {
     opacity: 0;
     transform: translate3d(100%, 0, 0);
   }
+
   to {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
 }
+
 @keyframes popOutRight {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
     transform: translate3d(100%, 0, 0);

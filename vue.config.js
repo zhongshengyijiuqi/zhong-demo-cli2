@@ -93,20 +93,11 @@ module.exports = {
   pwa: {},
   devServer: {
     open: false,
-    host: '0.0.0.0',
-    port: 7778,
+    host: '127.0.0.1',
+    port: 8080,
     compress: true,
     https: false,
     hotOnly: true,
-    proxy: {
-      '/api': {
-        target: 'http://192.168.1.154:2222/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
-      }
-    },
     before: app => {
       // `app` 是一个 express 实例
     }

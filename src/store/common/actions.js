@@ -108,7 +108,6 @@ async function postAuthorize({ commit }, obj) { //授权
 async function GetAppUserInfo({ rootState, commit }, obj) {//用户信息
   return new Promise(async (resolve, reject) => {
     try {
-
       await popup.$utils.awaitToken(rootState.common)
       let res = await commonRequest.GetAppUserInfo(obj)
       document.title = res.appName
